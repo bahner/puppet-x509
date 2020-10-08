@@ -1,0 +1,4 @@
+---
+x509::shared_ca_certificates_folder: /usr/local/share/ca-certificates
+x509::shared_ca_trust_certificates_folder: /usr/local/share/ca-certificates/trusted
+x509::update_ca_certficates_binary: /usr/bin/update-ca-certificates

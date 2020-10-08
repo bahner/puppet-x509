@@ -1,0 +1,4 @@
+---
+x509::shared_ca_certificates_folder: /etc/pki/ca-trust/source/anchors
+x509::shared_ca_trust_certificates_folder: /etc/pki/ca-trust/source/
+x509::update_ca_certficates_binary: /usr/bin/update-ca-trust

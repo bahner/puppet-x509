@@ -1,0 +1,6 @@
+---
+mock_with: ':rspec'
+Gemfile:
+  required:
+    ":development":
+      - gem: "puppet-debugger"
