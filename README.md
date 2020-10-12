@@ -61,11 +61,11 @@ X509 will read the hash x509::keys and treat the keys as names
 of cn to distribute. They are just names of files, but should
 correspond can be configured like this:
 
+```yaml
 ---
 cns:
   - snakeoil.example.com
 
-# This is unencrypted
 x509::certs:
   snakeoil.example.com: >
     -----BEGIN CERTIFICATE-----
@@ -84,7 +84,6 @@ x509::certs:
     l7WdmplNsDz4SgCbZN2fOUvRJ9e4
     -----END CERTIFICATE-----
 
-# This is encrypted (with hiera-eyaml-gpg)
 x509::keys:
   snakeoil.example.com: >
     ENC[GPG,hQIMA2J/QY05/enwAQ//Yzv++EKDK5yfqOzrJDZl6Zyj9Y356KPfVJOGwePJ
@@ -102,8 +101,7 @@ x509::keys:
     d4aVJ9ECd497xG7YMkAv7xUrv26qpXIqLV1pS+iRAQWYQ3jd644UeUYcERt0
     Yo9EJ7yTvIG/gtvSe4o2fSvLDvUSv7nH9S+vEKB6kZ+cee6QJd8vss/WzI92
     Tcvj/7HhItI=]
-
-
+```
 
 
 ## Usage
