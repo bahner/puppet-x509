@@ -51,7 +51,7 @@ must be protected. The smartest and easiest way to do this is
 to use eyaml for hiera.
 
 If you haven't already done this, you should first read the 
-[Hiera eyaml documentation](https://githttps://github.com/voxpupuli/hiera-eyaml).
+[Hiera eyaml documentation](https://github.com/voxpupuli/hiera-eyaml).
 
 Please take this advice seriously. Your private keys are important 
 to keep, well private. Learn to use eyaml sooner than later.
