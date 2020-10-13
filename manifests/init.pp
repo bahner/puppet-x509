@@ -71,9 +71,9 @@
 #   have a matching name.
 class x509 (
 
-  Array[String]         $cns,
-  Hash                  $keys,
-  Hash                  $certs,
+  Array[String]         $cns    = [],
+  Hash                  $keys   = {},
+  Hash                  $certs  = {},
   String                $ca_certificates_package_name,
   String                $group_name,
   Stdlib::Absolutepath  $shared_ca_certificates_folder,
