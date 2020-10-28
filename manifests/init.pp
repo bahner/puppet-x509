@@ -124,6 +124,11 @@ class x509 (
       mode    => '0550',
       require => File['/etc/x509'];
 
+    '/etc/x509/bundles':
+      ensure  => directory,
+      mode    => '0550',
+      require => File['/etc/x509'];
+
     'x509_shared_ca_certificates_folder':
       ensure  => directory,
       path    => $shared_ca_certificates_folder,
@@ -162,6 +167,25 @@ class x509 (
         group   => $group_name,
         require => File['/etc/x509/keys'],
       ;
+    }
+
+    concat {
+      "/etc/x509/bundles/${cn}.pem":
+        mode => '0440',
+    }
+
+    concat::fragment {
+      "${cn}_cert":
+        target => "/etc/x509/bundles/${cn}.pem",
+        source => "/etc/x509/certs/${cn}.crt",
+        order  => 10
+    }
+
+    concat::fragment {
+      "${cn}_key":
+        target => "/etc/x509/bundles/${cn}.pem",
+        source => "/etc/x509/keys/${cn}.key",
+        order  => 20
     }
   }
 
