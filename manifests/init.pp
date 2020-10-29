@@ -179,7 +179,7 @@ class x509 (
     concat::fragment {
       "${cn}_key":
         target => "/etc/x509/private/${cn}.pem",
-        source => "/etc/x509/keys/${cn}.key",
+        source => "/etc/x509/private/${cn}.key",
         order  => 20
     }
   }
