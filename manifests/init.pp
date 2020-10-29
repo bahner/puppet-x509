@@ -71,14 +71,14 @@
 #   have a matching name.
 class x509 (
 
-  Array[String]         $cns    = [],
-  Hash                  $keys   = {},
-  Hash                  $certs  = {},
   String                $ca_certificates_package_name,
   String                $group_name,
   Stdlib::Absolutepath  $shared_ca_certificates_folder,
   Stdlib::Absolutepath  $shared_ca_trust_certificates_folder,
   Stdlib::Absolutepath  $update_ca_certficates_binary,
+  Array[String]         $cns    = [],
+  Hash                  $keys   = {},
+  Hash                  $certs  = {},
 
 ) {
 
@@ -119,12 +119,7 @@ class x509 (
       recurse => true,
       require => File['/etc/x509'];
 
-    '/etc/x509/keys':
-      ensure  => directory,
-      mode    => '0550',
-      require => File['/etc/x509'];
-
-    '/etc/x509/bundles':
+    '/etc/x509/private':
       ensure  => directory,
       mode    => '0550',
       require => File['/etc/x509'];
@@ -161,29 +156,29 @@ class x509 (
       ;
       "x509_keys_${cn}":
         ensure  => present,
-        path    => "/etc/x509/keys/${cn}.key",
+        path    => "/etc/x509/private/${cn}.key",
         content => $key,
         mode    => '0440',
         group   => $group_name,
-        require => File['/etc/x509/keys'],
+        require => File['/etc/x509/private'],
       ;
     }
 
     concat {
-      "/etc/x509/bundles/${cn}.pem":
+      "/etc/x509/private/${cn}.pem":
         mode => '0440',
     }
 
     concat::fragment {
       "${cn}_cert":
-        target => "/etc/x509/bundles/${cn}.pem",
+        target => "/etc/x509/private/${cn}.pem",
         source => "/etc/x509/certs/${cn}.crt",
         order  => 10
     }
 
     concat::fragment {
       "${cn}_key":
-        target => "/etc/x509/bundles/${cn}.pem",
+        target => "/etc/x509/private/${cn}.pem",
         source => "/etc/x509/keys/${cn}.key",
         order  => 20
     }
