@@ -188,8 +188,8 @@ class x509 (
     'x509_update-ca-certificates':
       command     => $update_ca_certficates_binary,
       subscribe   => File[
-        $shared_ca_trust_certificates_folder,
-        $shared_ca_certificates_folder,
+        x509_shared_ca_trust_certificates_folder,
+        x509_shared_ca_certificates_folder 
       ],
       refreshonly => true;
   }
