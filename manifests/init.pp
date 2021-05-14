@@ -210,12 +210,12 @@ class x509 (
       refreshonly => true,
     ;
     'hostcert':
-      command => "ln ${hostcert} /etc/x509/certs/",
+      command => "cp  ${hostcert} /etc/x509/certs/",
       path    => ['/bin', '/usr/bin'],
       creates => "/etc/x509/certs/${::fqdn}.pem",
     ;
     'hostkey':
-      command => "ln ${hostkey} /etc/x509/private/${::fqdn}.key",
+      command => "cp ${hostkey} /etc/x509/private/${::fqdn}.key",
       path    => ['/bin', '/usr/bin'],
       creates => "/etc/x509/private/${::fqdn}.key",
     ;
