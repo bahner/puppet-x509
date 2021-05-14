@@ -141,12 +141,12 @@ class x509 (
       recurse => 'remote',
     ;
     'hostcert':
-      ensure  => 'present'
+      ensure  => 'present',
       path    => "/etc/x509/certs/${::fqdn}.pem",
       require => Exec['hostcert'],
     ;
     'hostkey':
-      ensure  => 'present'
+      ensure  => 'present',
       path    => "/etc/x509/private/${::fqdn}.key",
       mode    => '0440',
       require => Exec['hostkey'],
