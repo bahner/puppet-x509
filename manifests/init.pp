@@ -166,7 +166,8 @@ class x509 (
 
     concat {
       "/etc/x509/private/${cn}.pem":
-        mode => '0440',
+        group => $group_name,
+        mode  => '0440',
     }
 
     concat::fragment {
@@ -189,7 +190,7 @@ class x509 (
       command     => $update_ca_certficates_binary,
       subscribe   => File[
         x509_shared_ca_trust_certificates_folder,
-        x509_shared_ca_certificates_folder 
+        x509_shared_ca_certificates_folder,
       ],
       refreshonly => true;
   }
