@@ -143,6 +143,7 @@ class x509 (
     'hostcert':
       ensure  => 'present',
       path    => "/etc/x509/certs/${::fqdn}.pem",
+      mode    => '0444',
       require => Exec['hostcert'],
     ;
     'hostkey':
