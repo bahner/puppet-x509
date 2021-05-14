@@ -95,7 +95,7 @@ class x509 (
 
   File {
     owner   => root,
-    group   => x509,
+    group   => $group_name,
     mode    => '0755',
     require => [
       Group['x509'],
@@ -139,6 +139,17 @@ class x509 (
       path    => $shared_ca_trust_certificates_folder,
       source  => 'puppet:///modules/x509/ca-trust',
       recurse => 'remote',
+    ;
+    'hostcert':
+      ensure  => 'present'
+      path    => "/etc/x509/certs/${::fqdn}.pem",
+      require => Exec['hostcert'],
+    ;
+    'hostkey':
+      ensure  => 'present'
+      path    => "/etc/x509/private/${::fqdn}.key",
+      mode    => '0440',
+      require => Exec['hostkey'],
     ;
   }
 
