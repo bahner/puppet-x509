@@ -82,6 +82,9 @@ class x509 (
 
 ) {
 
+  $hostcert = lookup('pki::host::cert')
+  $hostkey = lookup('pki::host::key')
+
   group {
     'x509':
       ensure     => present,
@@ -192,6 +195,17 @@ class x509 (
         x509_shared_ca_trust_certificates_folder,
         x509_shared_ca_certificates_folder,
       ],
-      refreshonly => true;
+      refreshonly => true,
+    ;
+    'hostcert':
+      command => "ln ${hostcert} /etc/x509/certs/",
+      path    => ['/bin', '/usr/bin'],
+      creates => "/etc/x509/certs/${::fqdn}.pem",
+    ;
+    'hostkey':
+      command => "ln ${hostkey} /etc/x509/private/${::fqdn}.key",
+      path    => ['/bin', '/usr/bin'],
+      creates => "/etc/x509/private/${::fqdn}.key",
+    ;
   }
 }
