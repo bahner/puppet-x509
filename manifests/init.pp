@@ -143,13 +143,13 @@ class x509 (
     'hostcert':
       ensure  => 'present',
       path    => "/etc/x509/certs/${::fqdn}.pem",
-      mode    => '0444',
+      mode    => '0664',
       require => Exec['hostcert'],
     ;
     'hostkey':
       ensure  => 'present',
       path    => "/etc/x509/private/${::fqdn}.key",
-      mode    => '0440',
+      mode    => '0660',
       require => Exec['hostkey'],
     ;
   }
