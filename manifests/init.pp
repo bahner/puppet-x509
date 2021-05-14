@@ -143,13 +143,13 @@ class x509 (
     'hostcert':
       ensure  => 'present',
       path    => "/etc/x509/certs/${::fqdn}.pem",
-      mode    => '0664',
+      mode    => '0444',
       require => Exec['hostcert'],
     ;
     'hostkey':
       ensure  => 'present',
       path    => "/etc/x509/private/${::fqdn}.key",
-      mode    => '0660',
+      mode    => '0440',
       require => Exec['hostkey'],
     ;
   }
@@ -210,12 +210,12 @@ class x509 (
       refreshonly => true,
     ;
     'hostcert':
-      command => "cp  ${hostcert} /etc/x509/certs/",
+      command => "cat ${hostcert} > /etc/x509/certs/${::fqdn}.pem",
       path    => ['/bin', '/usr/bin'],
       creates => "/etc/x509/certs/${::fqdn}.pem",
     ;
     'hostkey':
-      command => "cp ${hostkey} /etc/x509/private/${::fqdn}.key",
+      command => "cat ${hostkey} > /etc/x509/private/${::fqdn}.key",
       path    => ['/bin', '/usr/bin'],
       creates => "/etc/x509/private/${::fqdn}.key",
     ;
