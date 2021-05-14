@@ -114,7 +114,8 @@ class x509 (
   file {
 
     '/etc/x509':
-      ensure => directory;
+      ensure => directory,
+      mode   => '0755';
 
     '/etc/x509/certs':
       ensure  => directory,
