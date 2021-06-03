@@ -2,6 +2,11 @@
 stages:
   - syntax
   - unit
+  - check
+  - build
+  - release
+variables:
+  GIT_CLEAN_FLAGS: '-x -f -e vendor/bundle'
 
 cache:
   paths:
@@ -41,4 +46,26 @@ parallel_spec-Ruby 2.4.5-Puppet ~> 5:
     - bundle exec rake parallel_spec
   variables:
     PUPPET_GEM_VERSION: '~> 5'
+
+Build:
+  stage: build
+  image: ruby:2.5.7
+  script:
+  - rm -rf pkg/*
+  - bundle exec pdk build --force --debug
+  artifacts:
+    paths:
+    - pkg/*
+Release:
+  stage: release
+  image: ruby:2.5.7
+  script:
+  - bundle exec pdk release --force --skip-publish --skip-changelog
+  - curl -F "file=@pkg/obcore-x509-$(jq -r .version < metadata.json).tar.gz" http://forge.obcore.net/upload
+    | grep 'File has been uploaded'
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    when: manual
+    allow_failure: true
+  - if: $CI_COMMIT_BRANCH == "master"
 

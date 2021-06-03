@@ -1,6 +1,46 @@
+# This file can be used to customize the files managed by PDK.
+#
+# See https://github.com/puppetlabs/pdk-templates/blob/main/README.md
+# for more information.
+#
+# See https://github.com/puppetlabs/pdk-templates/blob/main/config_defaults.yml
+# for the default values.
 ---
-mock_with: ':rspec'
+.gitlab-ci.yml:
+  custom:
+    custom_stages:
+      - check
+      - build
+      - release
+    global_variables:
+      GIT_CLEAN_FLAGS: -x -f -e vendor/bundle
+    custom_jobs:
+      Build:
+        stage: build
+        image: ruby:2.5.7
+        script:
+          - rm -rf pkg/*
+          - bundle exec pdk build --force --debug
+        artifacts:
+          paths:
+            - pkg/*
+      Release:
+        stage: release
+        image: ruby:2.5.7
+        script:
+          - bundle exec pdk release --force --skip-publish --skip-changelog
+          - curl -F "file=@pkg/obcore-x509-$(jq -r .version < metadata.json).tar.gz" http://forge.obcore.net/upload | grep 'File has been uploaded'
+        rules:
+          - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+            when: manual
+            allow_failure: true
+          - if: '$CI_COMMIT_BRANCH == "master"'
+.gitignore:
+  paths:
+    - REFERENCE.md
 Gemfile:
   required:
-    ":development":
-      - gem: "puppet-debugger"
+    ':development':
+      - gem: pdk
+        version: '>= 2.1.0'
+      - gem: 'puppet-module-posix-default-r2.6'
