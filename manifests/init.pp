@@ -142,18 +142,6 @@ class x509 (
       source  => 'puppet:///modules/x509/ca-trust',
       recurse => 'remote',
     ;
-    'hostcert':
-      ensure  => 'present',
-      mode    => '0444',
-      path    => "/etc/x509/certs/${::fqdn}.pem",
-      require => Exec['hostcert'],
-    ;
-    'hostkey':
-      ensure  => 'present',
-      path    => "/etc/x509/private/${::fqdn}.key",
-      mode    => '0440',
-      require => Exec['hostkey'],
-    ;
   }
 
   # We only want to create those that are needed.
@@ -169,7 +157,10 @@ class x509 (
         path    => "/etc/x509/certs/${cn}.crt",
         mode    => '0444',
         content => $cert,
-        require => File['/etc/x509/certs'],
+        require => [
+          Exec['hostcert'],
+          File['/etc/x509/certs'],
+        ]
       ;
       "x509_keys_${cn}":
         ensure  => present,
@@ -177,7 +168,10 @@ class x509 (
         content => $key,
         mode    => '0440',
         group   => $group_name,
-        require => File['/etc/x509/private'],
+        require => [
+          Exec['hostkey'],
+          File['/etc/x509/private'],
+        ],
       ;
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "bahner-x509",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Lars Bahner",
   "summary": "Easily and fairly safely distribute X.509 certificates",
   "license": "GPL-3.0",
